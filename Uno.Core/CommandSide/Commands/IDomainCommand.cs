@@ -1,6 +1,5 @@
-﻿namespace Uno.Core.CommandSide.Commands
+﻿namespace Uno.Core.CommandSide.Commands;
+
+public interface IDomainCommand
 {
-    public interface IDomainCommand
-    {
-    }
 }

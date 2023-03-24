@@ -3,26 +3,25 @@ using Uno.Core;
 using Uno.Core.CommandSide.Events;
 using Uno.Core.QuerySide;
 
-namespace Uno.Infrastructure
+namespace Uno.Infrastructure;
+
+public class EventPublisher : IEventPublisher
 {
-    public class EventPublisher : IEventPublisher
+    private readonly IEventStore _eventStore;
+    private readonly IReadOnlyCollection<IEventHandler> _eventHandlers;
+
+    public EventPublisher(IEventStore eventStore, IReadOnlyCollection<IEventHandler> eventHandlers)
     {
-        private readonly IEventStore _eventStore;
-        private readonly IReadOnlyCollection<IEventHandler> _eventHandlers;
+        _eventStore = eventStore;
+        _eventHandlers = eventHandlers;
+    }
 
-        public EventPublisher(IEventStore eventStore, IReadOnlyCollection<IEventHandler> eventHandlers)
+    public void Publish<TEvent>(TEvent evt, int sequenceId) where TEvent : IDomainEvent
+    {
+        _eventStore.Add(evt, sequenceId);
+        foreach (var eventHandler in _eventHandlers)
         {
-            _eventStore = eventStore;
-            _eventHandlers = eventHandlers;
-        }
-
-        public void Publish<TEvent>(TEvent evt, int sequenceId) where TEvent : IDomainEvent
-        {
-            _eventStore.Add(evt, sequenceId);
-            foreach (var eventHandler in _eventHandlers)
-            {
-                eventHandler.Handle(evt);
-            }
+            eventHandler.Handle(evt);
         }
     }
 }

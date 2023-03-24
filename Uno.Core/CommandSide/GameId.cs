@@ -1,12 +1,11 @@
-﻿namespace Uno.Core.CommandSide
-{
-    public record GameId : IAggregateId
-    {
-        public string Value { get; }
+﻿namespace Uno.Core.CommandSide;
 
-        public GameId(string value)
-        {
-            Value = value;
-        }
+public record GameId : IAggregateId
+{
+    public string Value { get; }
+
+    public GameId(string value)
+    {
+        Value = value;
     }
 }

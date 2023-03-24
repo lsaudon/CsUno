@@ -1,7 +1,6 @@
-﻿namespace Uno.Core.CommandSide
+﻿namespace Uno.Core.CommandSide;
+
+public interface IAggregateId
 {
-    public interface IAggregateId
-    {
-        string Value { get; }
-    }
+    string Value { get; }
 }

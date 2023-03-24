@@ -1,72 +1,208 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using Uno.Core.CommandSide.Commands;
-//using Uno.Core.CommandSide.Events;
+﻿// public class Card
+// {
+//     public int Number { get; set; }
+//     public CardColor Color { get; set; }
+//     public bool IsActionCard { get; set; }
+//     public bool IsWildCard { get; set; }
+//     public bool IsWildDrawFourCard { get; set; }
+// }
 
-//namespace Uno.Core.CommandSide
-//{
-//	public class CommandHandlerOld
-//	{
-//		private readonly IRepository<Game> _repository;
+// public enum CardColor
+// {
+//     Red,
+//     Yellow,
+//     Green,
+//     Blue
+// }
 
-//		public CommandHandlerOld(IRepository<Game> repository)
-//		{
-//			_repository = repository;
-//		}
+// public enum GameState
+// {
+//     NotStarted,
+//     InProgress,
+//     Ended
+// }
 
-//		public void Handle(CreateGame command)
-//		{
-//			var game = new Game(command.Id, command.Name, new List<Card>(), new List<Card>(), new List<Player>(), default, false);
+// public enum GameDirection
+// {
+//     Clockwise,
+//     Counterclockwise
+// }
 
-//			_repository.Save(game, new GameCreated(game.Name));
-//		}
+// public class GameStarted : Event
+// {
+//     public Guid FirstPlayerId { get; set; }
+//     public Card StartingCard { get; set; }
+//     public GameDirection Direction { get; set; }
+// }
 
-//		public void Handle(JoinGame command)
-//		{
-//			var game = _repository.GetById(command.GameId);
+// public class CardPlayed : Event
+// {
+//     public Guid PlayerId { get; set; }
+//     public Card Card { get; set; }
+// }
 
-//			game.Players.Add(new Player(command.PlayerName, new List<Card>()));
-//			_repository.Save(game, new PlayerJoined(command.PlayerName));
-//		}
+// public class PlayerDrewCard : Event
+// {
+//     public Guid PlayerId { get; set; }
+// }
 
-//		public void Handle(PlayCard command)
-//		{
-//			var game = _repository.GetById(command.GameId);
+// public class GameEnded : Event
+// {
+//     public Guid WinningPlayerId { get; set; }
+// }
 
-//			var player = game.Players.FirstOrDefault(p => p.Name == command.PlayerName);
+// public class Game : Aggregate
+// {
+//     private List<Guid> _playerIds = new List<Guid>();
+//     private List<Card> _deck = new List<Card>();
+//     private List<Card> _discardPile = new List<Card>();
+//     private Guid _currentPlayerId;
+//     private GameDirection _direction;
+//     private GameState _state;
 
-//			if (player == null)
-//			{
-//				throw new InvalidOperationException("Player not found.");
-//			}
+//     public void PlayCard(Guid playerId, Card card)
+//     {
+//         if (_state != GameState.InProgress)
+//         {
+//             throw new InvalidOperationException("Cannot play card when game is not in progress.");
+//         }
 
-//			var card = player.Hand.FirstOrDefault(c => c.Color == command.Color && c.Value == command.Value);
+//         if (playerId != _currentPlayerId)
+//         {
+//             throw new ArgumentException("Player cannot play card out of turn.");
+//         }
 
-//			if (card == null)
-//			{
-//				throw new InvalidOperationException("Card not found in player's hand.");
-//			}
+//         if (!CanPlayCard(card))
+//         {
+//             throw new ArgumentException("Cannot play this card.");
+//         }
 
-//			player.Hand.Remove(card);
-//			game.DiscardPile.Add(card);
+//         RemoveCardFromPlayer(playerId, card);
+//         AddCardToDiscardPile(card);
 
-//			_repository.Save(game, new CardPlayed(card));
+//         AddEvent(new CardPlayed { AggregateId = Id, PlayerId = playerId, Card = card });
 
-//			// Check for game over condition
-//			if (player.Hand.Count == 0)
-//			{
-//				_repository.Save(game, new GameOver(player.Name));
-//			}
-//			else
-//			{
-//				// Change turn
-//				var currentPlayerIndex = game.Players.IndexOf(game.CurrentPlayer);
-//				var nextPlayerIndex = (currentPlayerIndex + 1) % game.Players.Count;
-//				game.CurrentPlayer = game.Players[nextPlayerIndex];
+//         if (HasPlayerWon(playerId))
+//         {
+//             AddEvent(new GameEnded { AggregateId = Id, WinningPlayerId = playerId });
+//             _state = GameState.Ended;
+//         }
+//         else
+//         {
+//             MoveToNextPlayer();
+//         }
+//     }
 
-//				_repository.Save(game, new PlayerTurnChanged(game.CurrentPlayer.Name));
-//			}
-//		}
-//	}
-//}
+//     public void DrawCard(Guid playerId)
+//     {
+//         if (_state != GameState.InProgress)
+//         {
+//             throw new InvalidOperationException("Cannot draw card when game is not in progress.");
+//         }
+
+//         if (playerId != _currentPlayerId)
+//         {
+//             throw new ArgumentException("Player cannot draw card out of turn.");
+//         }
+
+//         var card = DrawCard();
+
+//         AddCardToPlayer(playerId, card);
+
+//         AddEvent(new PlayerDrewCard { AggregateId = Id, PlayerId = playerId });
+//     }
+
+//     private void AddCardToDiscardPile(Card card)
+//     {
+//         _discardPile.Add(card);
+//     }
+
+//     private void AddCardToPlayer(Guid playerId, Card card)
+//     {
+//         throw new NotImplementedException();
+//     }
+
+//     private void RemoveCardFromPlayer(Guid playerId, Card card)
+//     {
+//         throw new NotImplementedException();
+//     }
+
+//     private Card DrawCard()
+//     {
+//         throw new NotImplementedException();
+//     }
+
+//     private bool CanPlayCard(Card card)
+//     {
+//         throw new NotImplementedException();
+//     }
+
+//     private bool HasPlayerWon(Guid playerId)
+//     {
+//         throw new NotImplementedException();
+//     }
+
+//     private void MoveToNextPlayer()
+//     {
+//         throw new NotImplementedException();
+//     }
+// }
+
+// public class Program
+// {
+//     public static void Main()
+//     {
+//         var commandHandler = new CommandHandler();
+
+//         commandHandler.RegisterHandler<CreateGame>(command =>
+//         {
+//             var game = new Game();
+//             game.Id = command.AggregateId;
+//             game.CreateGame(command.NumberOfPlayers);
+//         });
+
+//         commandHandler.RegisterHandler<JoinGame>(command =>
+//         {
+//             var game = (Game)commandHandler.GetAggregate(command.AggregateId);
+//             game.JoinGame(command.PlayerId, command.PlayerName);
+//         });
+
+//         commandHandler.RegisterHandler<StartGame>(command =>
+//         {
+//             var game = (Game)commandHandler.GetAggregate(command.AggregateId);
+//             game.StartGame(command.FirstPlayerId);
+//         });
+
+//         commandHandler.RegisterHandler<PlayCard>(command =>
+//         {
+//             var game = (Game)commandHandler.GetAggregate(command.AggregateId);
+//             game.PlayCard(command.PlayerId, command.Card);
+//         });
+
+//         commandHandler.RegisterHandler<DrawCard>(command =>
+//         {
+//             var game = (Game)commandHandler.GetAggregate(command.AggregateId);
+//             game.DrawCard(command.PlayerId);
+//         });
+
+//         var gameId = Guid.NewGuid();
+
+//         var createGameCommand = new CreateGame { AggregateId = gameId, NumberOfPlayers = 2 };
+//         commandHandler.HandleCommand(createGameCommand);
+
+//         var joinGameCommand1 = new JoinGame { AggregateId = gameId, PlayerId = Guid.NewGuid(), PlayerName = "Alice" };
+//         commandHandler.HandleCommand(joinGameCommand1);
+
+//         var joinGameCommand2 = new JoinGame { AggregateId = gameId, PlayerId = Guid.NewGuid(), PlayerName = "Bob" };
+//         commandHandler.HandleCommand(joinGameCommand2);
+
+//         var startGameCommand = new StartGame { AggregateId = gameId, FirstPlayerId = joinGameCommand1.PlayerId };
+//         commandHandler.HandleCommand(startGameCommand);
+
+//         var playCardCommand = new PlayCard { AggregateId = gameId, PlayerId = joinGameCommand1.PlayerId, Card = new Card { Number = 7, Color = CardColor.Red } };
+//         commandHandler.HandleCommand(playCardCommand);
+
+//         var drawCardCommand = new DrawCard { AggregateId = gameId, PlayerId = joinGameCommand2.PlayerId };
+//         commandHandler.HandleCommand(drawCardCommand);
+//     }
+// }

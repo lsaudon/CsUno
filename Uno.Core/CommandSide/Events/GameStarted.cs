@@ -1,10 +1,10 @@
 ﻿namespace Uno.Core.CommandSide.Events;
 
-public record GameCreated : IDomainEvent
+public record GameStarted : IDomainEvent
 {
     public GameId Id { get; }
 
-    public GameCreated(GameId id)
+    public GameStarted(GameId id)
     {
         Id = id;
     }
