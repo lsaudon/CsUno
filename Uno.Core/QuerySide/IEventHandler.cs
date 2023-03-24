@@ -1,9 +1,8 @@
 ﻿using Uno.Core.CommandSide.Events;
 
-namespace Uno.Core.QuerySide
+namespace Uno.Core.QuerySide;
+
+public interface IEventHandler
 {
-    public interface IEventHandler
-    {
-        void Handle(IDomainEvent evt);
-    }
+    void Handle(IDomainEvent evt);
 }

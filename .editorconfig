@@ -1,5 +1,6 @@
 ﻿[*.{cs}]
 csharp_style_expression_bodied_methods = true
+csharp_style_namespace_declarations = file_scoped
 
 dotnet_diagnostic.ASP0000.severity = error
 dotnet_diagnostic.ASP0001.severity = error
@@ -392,7 +393,7 @@ dotnet_diagnostic.IDE0110.severity = error
 dotnet_diagnostic.IDE0120.severity = error
 dotnet_diagnostic.IDE0130.severity = error
 dotnet_diagnostic.IDE0150.severity = error
-dotnet_diagnostic.IDE0160.severity = error
+dotnet_diagnostic.IDE0160.severity = none
 dotnet_diagnostic.IDE0161.severity = error
 dotnet_diagnostic.IDE0170.severity = error
 dotnet_diagnostic.IDE0180.severity = error

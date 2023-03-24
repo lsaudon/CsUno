@@ -1,7 +1,6 @@
-﻿namespace Uno.Core.CommandSide.Events
+﻿namespace Uno.Core.CommandSide.Events;
+
+public interface IDomainEvent
 {
-    public interface IDomainEvent
-    {
-        IAggregateId GetAggregateId();
-    }
+    IAggregateId GetAggregateId();
 }
