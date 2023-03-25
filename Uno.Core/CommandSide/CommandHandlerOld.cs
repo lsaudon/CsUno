@@ -28,13 +28,6 @@
 //     Counterclockwise
 // }
 
-// public class GameStarted : Event
-// {
-//     public Guid FirstPlayerId { get; set; }
-//     public Card StartingCard { get; set; }
-//     public GameDirection Direction { get; set; }
-// }
-
 // public class CardPlayed : Event
 // {
 //     public Guid PlayerId { get; set; }
