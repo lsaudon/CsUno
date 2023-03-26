@@ -15,10 +15,11 @@ public class CommandHandler : ICommandHandler<CreateGame>,
         _eventPublisher = eventPublisher;
         _eventStoreInMemory = eventStoreInMemory;
     }
+
     public void Handle(CreateGame command)
     {
         var stream = _eventStoreInMemory.GetAll(command.Id);
-        _eventPublisher.Publish(new GameCreated(new GameId("1")), stream.Count);
+        _eventPublisher.Publish(new GameCreated(command.Id), stream.Count);
     }
 
     public void Handle(JoinGame command)

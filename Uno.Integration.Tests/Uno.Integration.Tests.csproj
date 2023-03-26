@@ -23,4 +23,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Uno.Core\Uno.Core.csproj" />
+    <ProjectReference Include="..\Uno.Infrastructure\Uno.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
