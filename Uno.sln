@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uno.Core", "Uno.Core\Uno.Core.csproj", "{C837DE64-726B-4591-8287-2798C3F0C930}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.Core", "Uno.Core\Uno.Core.csproj", "{C837DE64-726B-4591-8287-2798C3F0C930}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Éléments de solution", "Éléments de solution", "{42D791EB-F9D2-4675-A6F5-3186428D25F1}"
 	ProjectSection(SolutionItems) = preProject
@@ -13,16 +13,22 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Éléments de solution", "�
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uno.Infrastructure", "Uno.Infrastructure\Uno.Infrastructure.csproj", "{00CEDE4F-EEE4-45FD-821F-125F87D9BB14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.Infrastructure", "Uno.Infrastructure\Uno.Infrastructure.csproj", "{00CEDE4F-EEE4-45FD-821F-125F87D9BB14}"
 	ProjectSection(ProjectDependencies) = postProject
 		{C837DE64-726B-4591-8287-2798C3F0C930} = {C837DE64-726B-4591-8287-2798C3F0C930}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uno.Infrastructure.Tests", "Uno.Infrastructure.Tests\Uno.Infrastructure.Tests.csproj", "{EA012DB0-63B9-42E8-B4A2-DE654A10641C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.Infrastructure.Tests", "Uno.Infrastructure.Tests\Uno.Infrastructure.Tests.csproj", "{EA012DB0-63B9-42E8-B4A2-DE654A10641C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uno.Core.Tests", "Uno.Core.Tests\Uno.Core.Tests.csproj", "{10A00BDB-11ED-4FF4-A763-3E8BF11F1738}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.Core.Tests", "Uno.Core.Tests\Uno.Core.Tests.csproj", "{10A00BDB-11ED-4FF4-A763-3E8BF11F1738}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uno.Integration.Tests", "Uno.Integration.Tests\Uno.Integration.Tests.csproj", "{EACC3EAD-6C09-45DF-BA42-08365A09E9D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.Integration.Tests", "Uno.Integration.Tests\Uno.Integration.Tests.csproj", "{EACC3EAD-6C09-45DF-BA42-08365A09E9D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uno.ConsoleApp", "Uno.ConsoleApp\Uno.ConsoleApp.csproj", "{84F4BC37-12A4-4986-B4BF-513F5455C2EC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{00CEDE4F-EEE4-45FD-821F-125F87D9BB14} = {00CEDE4F-EEE4-45FD-821F-125F87D9BB14}
+		{C837DE64-726B-4591-8287-2798C3F0C930} = {C837DE64-726B-4591-8287-2798C3F0C930}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,6 +56,10 @@ Global
 		{EACC3EAD-6C09-45DF-BA42-08365A09E9D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EACC3EAD-6C09-45DF-BA42-08365A09E9D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EACC3EAD-6C09-45DF-BA42-08365A09E9D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84F4BC37-12A4-4986-B4BF-513F5455C2EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84F4BC37-12A4-4986-B4BF-513F5455C2EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84F4BC37-12A4-4986-B4BF-513F5455C2EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84F4BC37-12A4-4986-B4BF-513F5455C2EC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
