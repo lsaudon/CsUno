@@ -39,7 +39,7 @@ public static class Game
                decisionProjection.PlayerIds.Contains(command.PlayerId) ||
                decisionProjection.IsStarted
             ? new List<IDomainEvent>()
-            : new List<IDomainEvent> { new PlayerJoined(command.GameId, command.PlayerId) };
+            : new List<IDomainEvent> { new PlayerJoined(command.Id, command.PlayerId) };
     }
 
     private static IEnumerable<IDomainEvent> Decide(StartGame command, DecisionProjection decisionProjection)
