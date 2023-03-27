@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Uno.Core.Tests.QuerySide;
 
-public class GameTests
+public class CreatingGameTests
 {
     [Fact]
     public void When_Receive_GameCreated_Then_This_Game_Is_Added_In_Creating_Games()
