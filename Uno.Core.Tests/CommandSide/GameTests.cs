@@ -85,7 +85,7 @@ public class GameTests
     }
 
     [Fact]
-    public void Given_PlayerJoined_3_Times_When_Send_StartGame_Then_Raise_GameStarted()
+    public void Given_PlayerJoined_3_Times_When_Send_StartGame_Then_Raise_GameStarted_3_CardsDealt_And_PileOfCardsMade()
     {
         var events = new List<IDomainEvent> {
             new GameCreated(new GameId("1")),
@@ -94,10 +94,29 @@ public class GameTests
             new PlayerJoined(new GameId("1"), new PlayerId("3")),
         };
 
-        var domainEvents = Game.Decide(new StartGame(new GameId("1")), events);
+        var domainEvents = Game.Decide(new StartGame(new GameId("1")), events).ToList();
 
         Assert.Contains(domainEvents, e => e is GameStarted);
-        Assert.Equal(3, domainEvents.Count(e => e is SevenCardsDealt));
+        var cardsDealts = domainEvents.OfType<CardsDealt>().ToList();
+        Assert.NotNull(cardsDealts);
+        Assert.Equal(3, cardsDealts.Count);
+        Assert.All(cardsDealts, a => Assert.Equal(7, a.Cards.Count));
+        var pileOfCardsMade = domainEvents.OfType<PileOfCardsMade>().First();
+        Assert.NotNull(pileOfCardsMade);
+        Assert.Equal(55, pileOfCardsMade.Cards.Count);
+        var cards = cardsDealts.SelectMany(a => a.Cards).Concat(pileOfCardsMade.Cards).ToList();
+        foreach (var card in cards)
+        {
+            if (card.Number == 0)
+            {
+                Assert.Single(cards.Where(a => a.Equals(card)));
+            }
+            else
+            {
+                Assert.Equal(2, cards.Where(a => a.Equals(card)).Count());
+            }
+        }
+        Assert.Equal(76, cards.Count);
     }
 
     [Fact]

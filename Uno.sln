@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Éléments de solution", "�
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
+		.config\dotnet-tools.json = .config\dotnet-tools.json
 		LICENSE.txt = LICENSE.txt
 		README.md = README.md
 	EndProjectSection
@@ -24,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.Core.Tests", "Uno.Core.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.Integration.Tests", "Uno.Integration.Tests\Uno.Integration.Tests.csproj", "{EACC3EAD-6C09-45DF-BA42-08365A09E9D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uno.ConsoleApp", "Uno.ConsoleApp\Uno.ConsoleApp.csproj", "{84F4BC37-12A4-4986-B4BF-513F5455C2EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.ConsoleApp", "Uno.ConsoleApp\Uno.ConsoleApp.csproj", "{84F4BC37-12A4-4986-B4BF-513F5455C2EC}"
 	ProjectSection(ProjectDependencies) = postProject
 		{00CEDE4F-EEE4-45FD-821F-125F87D9BB14} = {00CEDE4F-EEE4-45FD-821F-125F87D9BB14}
 		{C837DE64-726B-4591-8287-2798C3F0C930} = {C837DE64-726B-4591-8287-2798C3F0C930}

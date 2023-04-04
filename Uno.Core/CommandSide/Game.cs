@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using Uno.Core.CommandSide.Commands;
 using Uno.Core.CommandSide.Events;
 
@@ -44,10 +45,43 @@ public static class Game
 
     private static IEnumerable<IDomainEvent> Decide(StartGame command, DecisionProjection decisionProjection)
     {
-        return decisionProjection.NumberOfPlayers < 3
-            ? new List<IDomainEvent>()
-            : new List<IDomainEvent> { new GameStarted(command.Id) }
-                                     .Concat(decisionProjection.PlayerIds.Select(e => new SevenCardsDealt(command.Id, e)));
+        if (decisionProjection.NumberOfPlayers < 3)
+        {
+            return new List<IDomainEvent>();
+        }
+
+        var cards = ShuffleAllCards().ToList();
+
+        var cardsDealts = decisionProjection.PlayerIds.Select(e =>
+        {
+            var playerCards = cards.Take(7).ToList();
+            cards.RemoveRange(0, playerCards.Count);
+            return new CardsDealt(command.Id, e, playerCards);
+        }).ToList();
+
+        var list = new List<IDomainEvent> { new GameStarted(command.Id) }.Concat(cardsDealts).ToList();
+        list.Add(new PileOfCardsMade(command.Id, cards));
+        return list;
+    }
+
+    private static IEnumerable<Card> ShuffleAllCards()
+    {
+        List<Card> cards = new();
+        for (int i = 0; i < 10; i++)
+        {
+            cards.Add(new Card(CardColor.Red, i));
+            cards.Add(new Card(CardColor.Yellow, i));
+            cards.Add(new Card(CardColor.Green, i));
+            cards.Add(new Card(CardColor.Blue, i));
+            if (i > 0)
+            {
+                cards.Add(new Card(CardColor.Red, i));
+                cards.Add(new Card(CardColor.Yellow, i));
+                cards.Add(new Card(CardColor.Green, i));
+                cards.Add(new Card(CardColor.Blue, i));
+            }
+        }
+        return cards.OrderBy(_ => RandomNumberGenerator.GetInt32(cards.Count));
     }
 
     private sealed class DecisionProjection : DecisionProjectionBase
@@ -62,7 +96,6 @@ public static class Game
             AddHandler<GameCreated>(When);
             AddHandler<PlayerJoined>(When);
             AddHandler<GameStarted>(When);
-            AddHandler<SevenCardsDealt>(When);
         }
 
 
@@ -79,10 +112,6 @@ public static class Game
         private void When(GameStarted _)
         {
             IsStarted = true;
-        }
-
-        private void When(SevenCardsDealt _)
-        {
         }
     }
 }
