@@ -69,16 +69,17 @@ public static class Game
         List<Card> cards = new();
         for (int i = 0; i < 10; i++)
         {
-            cards.Add(new Card(CardColor.Red, i));
-            cards.Add(new Card(CardColor.Yellow, i));
-            cards.Add(new Card(CardColor.Green, i));
-            cards.Add(new Card(CardColor.Blue, i));
+            CardNumber number = new(i);
+            cards.Add(new Card(CardColor.Red, number));
+            cards.Add(new Card(CardColor.Yellow, number));
+            cards.Add(new Card(CardColor.Green, number));
+            cards.Add(new Card(CardColor.Blue, number));
             if (i > 0)
             {
-                cards.Add(new Card(CardColor.Red, i));
-                cards.Add(new Card(CardColor.Yellow, i));
-                cards.Add(new Card(CardColor.Green, i));
-                cards.Add(new Card(CardColor.Blue, i));
+                cards.Add(new Card(CardColor.Red, number));
+                cards.Add(new Card(CardColor.Yellow, number));
+                cards.Add(new Card(CardColor.Green, number));
+                cards.Add(new Card(CardColor.Blue, number));
             }
         }
         return cards.OrderBy(_ => RandomNumberGenerator.GetInt32(cards.Count));

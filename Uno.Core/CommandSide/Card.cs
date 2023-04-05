@@ -8,4 +8,6 @@ public enum CardColor
     Blue
 }
 
-public record Card(CardColor Color, int Number) { }
+public record CardNumber(int Value);
+
+public record Card(CardColor Color, CardNumber Number);
