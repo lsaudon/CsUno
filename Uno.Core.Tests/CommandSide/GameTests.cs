@@ -107,7 +107,7 @@ public class GameTests
         var cards = cardsDealts.SelectMany(a => a.Cards).Concat(pileOfCardsMade.Cards).ToList();
         foreach (var card in cards)
         {
-            if (card.Number == 0)
+            if (card.Number.Value == 0)
             {
                 Assert.Single(cards.Where(a => a.Equals(card)));
             }

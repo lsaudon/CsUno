@@ -2,7 +2,7 @@
 
 namespace Uno.Core.CommandSide;
 
-public interface ICommandHandler<in TCommand> where TCommand : notnull, IDomainCommand
+public interface ICommandHandler<TCommand> where TCommand : notnull, IDomainCommand
 {
     void Handle(TCommand command);
 }
