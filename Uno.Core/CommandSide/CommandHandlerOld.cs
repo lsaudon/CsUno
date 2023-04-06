@@ -1,25 +1,8 @@
 ﻿// public class Card
 // {
-//     public int Number { get; set; }
-//     public CardColor Color { get; set; }
 //     public bool IsActionCard { get; set; }
 //     public bool IsWildCard { get; set; }
 //     public bool IsWildDrawFourCard { get; set; }
-// }
-
-// public enum CardColor
-// {
-//     Red,
-//     Yellow,
-//     Green,
-//     Blue
-// }
-
-// public enum GameState
-// {
-//     NotStarted,
-//     InProgress,
-//     Ended
 // }
 
 // public enum GameDirection

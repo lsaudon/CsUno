@@ -1,5 +1,6 @@
-﻿using Uno.Core.CommandSide;
+﻿using System.Collections.Generic;
+using Uno.Core.CommandSide;
 
 namespace Uno.Core.QuerySide;
 
-public record CreatingGame(GameId Id);
+public record PlayerCards(GameId Id, PlayerId PlayerId, IList<Card> Cards);
